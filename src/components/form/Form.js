@@ -1,32 +1,103 @@
+import { useState } from "react";
+
 import Button from "../UI/Button";
-import classes from './form.module.css';
+import classes from "./form.module.css";
+
 const Form = (props) => {
+  const [enteredDate, setEnteredDate] = useState("");
+  const [enteredCiggaretsPerDay, setEnteredCiggaretsPerDay] = useState("");
+  const [enteredCiggaretsInOnePacket, setEnteredCiggaretsInOnePacket] =
+    useState("");
+  const [enteredValue, setEnteredValue] = useState("");
+  const [enteredCurrency, setEnteredCurrency] = useState("PLN");
+
+  const dateChangeHandler = (e) => {
+    setEnteredDate(e.target.value);
+  };
+  const ciggaretsPerDayChangeHandler = (e) => {
+    setEnteredCiggaretsPerDay(e.target.value);
+  };
+  const CiggaretsInOnePacketChangeHandler = (e) => {
+    setEnteredCiggaretsInOnePacket(e.target.value);
+  };
+  const valueChangeHandler = (e) => {
+    setEnteredValue(e.target.value);
+  };
+  const currencyChangeHandler = (e) => {
+    setEnteredCurrency(e.target.value);
+  };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const allDate = {
+      date: enteredDate,
+      CiggaretesPerDay: enteredCiggaretsPerDay,
+      CiggaretsInOnePacket: enteredCiggaretsInOnePacket,
+      value: enteredValue,
+      currency: enteredCurrency,
+    };
+    console.log(allDate);
+    setEnteredDate('');
+    setEnteredCiggaretsPerDay('');
+    setEnteredCiggaretsInOnePacket('');
+    setEnteredValue('');
+    setEnteredCurrency('PLN');
+  };
+
   return (
-    <form className={classes.formContainer}>
+    <form className={classes.formContainer} onSubmit={submitHandler}>
       <div className={classes.smallContainer}>
         <label htmlFor="date">When you stopped smoking?</label>
-        <input type="date" id="date" />
+        <input
+          value={enteredDate}
+          type="date"
+          id="date"
+          onChange={dateChangeHandler}
+        />
       </div>
       <div className={classes.smallContainer}>
-      <label htmlFor="many">How many cigarettes you smoke in one day?</label>
-        <input type="number" id="many" min='1' max='99' step='1' />
+        <label htmlFor="many">How many cigarettes you smoke in one day?</label>
+        <input
+          value={enteredCiggaretsPerDay}
+          type="number"
+          id="many"
+          min="1"
+          max="99"
+          step="1"
+          onChange={ciggaretsPerDayChangeHandler}
+        />
       </div>
       <div className={classes.smallContainer}>
-      <label htmlFor="ciggaretes">How many cigarettes are in one packet?</label>
-        <input type="number" id="ciggraretes" min='5' max='25' step='1' />
+        <label htmlFor="ciggaretes">
+          How many cigarettes are in one packet?
+        </label>
+        <input
+          value={enteredCiggaretsInOnePacket}
+          type="number"
+          id="ciggraretes"
+          min="5"
+          max="25"
+          step="1"
+          onChange={CiggaretsInOnePacketChangeHandler}
+        />
       </div>
       <div className={classes.smallContainer}>
-      <label htmlFor="packet">How much money is one packet?</label>
-      <div className={classes.price}>
-        <input type="number" id="packet" min='1' />
-        <select>
-            <option value='PLN'>PLN</option>
-            <option value='Dolar'>$</option>
-            <option value='EURO'>€</option>
-        </select>
+        <label htmlFor="packet">How much money is one packet?</label>
+        <div className={classes.price}>
+          <input
+            value={enteredValue}
+            type="number"
+            id="packet"
+            min="1"
+            onChange={valueChangeHandler}
+          />
+          <select onChange={currencyChangeHandler}>
+            <option value="PLN">PLN</option>
+            <option value="Dolar">$</option>
+            <option value="EURO">€</option>
+          </select>
         </div>
       </div>
-      <Button>How much money have i saved?</Button>
+      <Button type="submit">How much money have i saved?</Button>
     </form>
   );
 };

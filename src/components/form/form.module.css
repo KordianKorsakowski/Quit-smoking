@@ -29,6 +29,10 @@ input{
     width: 20rem;
     max-width: 100%;
 }
+.invalid{
+    border: 1px solid rgba(171, 35, 35, 0.687);
+    background-color: rgba(254, 66, 66, 0.187);
+}
 select{
     font: inherit;
     padding: 0.5rem;
@@ -36,3 +40,4 @@ select{
     border: 1px solid #ccc;
     max-width: 100%;
 }
+

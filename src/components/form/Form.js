@@ -20,10 +20,8 @@ const Form = (props) => {
 
   const [enteredValue, setEnteredValue] = useState("");
   const [enteredValueIsValid, setEnteredValueIsValid] = useState(true);
-  
-  const [enteredCurrency, setEnteredCurrency] = useState("PLN");
 
-  const [formIsValid, setFormIsValid] = useState(false);
+  const [enteredCurrency, setEnteredCurrency] = useState("PLN");
 
   //get data
   const dateChangeHandler = (e) => {
@@ -38,7 +36,7 @@ const Form = (props) => {
     }
     setEnteredCiggaretsPerDay(e.target.value);
   };
-  const CiggaretsInOnePacketChangeHandler = (e) => {
+  const ciggaretsInOnePacketChangeHandler = (e) => {
     if (e.target.value !== "") {
       setEnteredCiggaretsInOnePacketIsValid(true);
     }
@@ -58,7 +56,6 @@ const Form = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     if (enteredDate.length !== 10) {
       setEnteredDateIsValid(false);
     }
@@ -71,17 +68,6 @@ const Form = (props) => {
     if (enteredValue === "") {
       setEnteredValueIsValid(false);
     }
-    if (
-      enteredDateIsValid &&
-      enteredCiggaretsPerDayIsValid &&
-      enteredCiggaretsInOnePacketIsValid &&
-      enteredValueIsValid
-    ) {
-      setFormIsValid(true);
-    }
-    if (!formIsValid) {
-      return;
-    }
 
     const allData = {
       date: new Date(enteredDate),
@@ -90,6 +76,17 @@ const Form = (props) => {
       value: enteredValue,
       currency: enteredCurrency,
     };
+
+    if (
+      allData.date === "" ||
+      allData.CiggaretesPerDay === "" ||
+      allData.CiggaretsInOnePacket === "" ||
+      allData.value === ""
+    ) {
+      props.onValid(false);
+      return;
+    }
+    props.onValid(true);
     props.onSendUserData(allData);
 
     setEnteredDate("");
@@ -138,7 +135,7 @@ const Form = (props) => {
           min="1"
           max="25"
           step="1"
-          onChange={CiggaretsInOnePacketChangeHandler}
+          onChange={ciggaretsInOnePacketChangeHandler}
         />
       </div>
       <div className={classes.smallContainer}>

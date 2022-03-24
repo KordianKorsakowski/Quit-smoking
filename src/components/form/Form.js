@@ -28,19 +28,20 @@ const Form = (props) => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    const allDate = {
-      date: enteredDate,
+    const allData = {
+      date: new Date(enteredDate),
       CiggaretesPerDay: enteredCiggaretsPerDay,
       CiggaretsInOnePacket: enteredCiggaretsInOnePacket,
       value: enteredValue,
       currency: enteredCurrency,
     };
-    console.log(allDate);
-    setEnteredDate('');
-    setEnteredCiggaretsPerDay('');
-    setEnteredCiggaretsInOnePacket('');
-    setEnteredValue('');
-    setEnteredCurrency('PLN');
+    props.onSendUserData(allData);
+
+    setEnteredDate("");
+    setEnteredCiggaretsPerDay("");
+    setEnteredCiggaretsInOnePacket("");
+    setEnteredValue("");
+    setEnteredCurrency("PLN");
   };
 
   return (
@@ -92,8 +93,8 @@ const Form = (props) => {
           />
           <select onChange={currencyChangeHandler}>
             <option value="PLN">PLN</option>
-            <option value="Dolar">$</option>
-            <option value="EURO">€</option>
+            <option value="$">$</option>
+            <option value="€">€</option>
           </select>
         </div>
       </div>

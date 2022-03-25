@@ -1,0 +1,29 @@
+.formContainer {
+    width: max-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    background-color: rgb(223, 223, 223);
+    padding: 3rem;
+    border-radius: 5px;
+    margin-top: 3rem;
+  }
+  .invalid{
+    border: 1px solid rgba(171, 35, 35, 0.687);
+    background-color: rgba(254, 66, 66, 0.187);
+}
+
+.errorM{
+  color:rgba(171, 35, 35, 0.687); 
+  margin: 0;
+}
+.info{
+  text-align: center;
+}
+.info p {
+  margin: 0;
+  font-size: 1rem;
+  color:rgba(171, 35, 35, 0.687); 
+}

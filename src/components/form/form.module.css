@@ -40,4 +40,7 @@ select{
     border: 1px solid #ccc;
     max-width: 100%;
 }
-
+.errorM{
+    color:rgba(171, 35, 35, 0.687); 
+    margin: 0;
+  }

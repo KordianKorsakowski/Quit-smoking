@@ -1,54 +1,52 @@
 import { useState } from "react";
-
+import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
 import classes from "./form.module.css";
 
 const Form = (props) => {
-  const [enteredDate, setEnteredDate] = useState("");
-  const [enteredDateIsValid, setEnteredDateIsValid] = useState(true);
-
-  const [enteredCiggaretsPerDay, setEnteredCiggaretsPerDay] = useState("");
-  const [enteredCiggaretsPerDayIsValid, setEenteredCiggaretsPerDayIsValid] =
-    useState(true);
-
-  const [enteredCiggaretsInOnePacket, setEnteredCiggaretsInOnePacket] =
-    useState("");
-  const [
-    enteredCiggaretsInOnePacketIsValid,
-    setEnteredCiggaretsInOnePacketIsValid,
-  ] = useState(true);
-
-  const [enteredValue, setEnteredValue] = useState("");
-  const [enteredValueIsValid, setEnteredValueIsValid] = useState(true);
-
   const [enteredCurrency, setEnteredCurrency] = useState("PLN");
+  const {
+    value: enteredDate,
+    isValid: enteredDateIsValid,
+    hasError: dateInputHasError,
+    valueChangeHandler: dateChangedHandler,
+    inputBlurHandler: dateBlurHandler,
+    reset: resetDateInput,
+  } = useInput((value) => value.trim() !== '');
 
-  //get data
-  const dateChangeHandler = (e) => {
-    if (e.target.value !== "") {
-      setEnteredDateIsValid(true);
-    }
-    setEnteredDate(e.target.value);
-  };
-  const ciggaretsPerDayChangeHandler = (e) => {
-    if (e.target.value !== "") {
-      setEenteredCiggaretsPerDayIsValid(true);
-    }
-    setEnteredCiggaretsPerDay(e.target.value);
-  };
-  const ciggaretsInOnePacketChangeHandler = (e) => {
-    if (e.target.value !== "") {
-      setEnteredCiggaretsInOnePacketIsValid(true);
-    }
-    setEnteredCiggaretsInOnePacket(e.target.value);
-  };
-  const valueChangeHandler = (e) => {
-    if (e.target.value !== "") {
-      setEnteredValueIsValid(true);
-    }
-    setEnteredValue(e.target.value);
-  };
-  const currencyChangeHandler = (e) => {
+  const {
+    value: enteredCiggaretsPerDay,
+    isValid: enteredCiggaretsPerDayIsValid,
+    hasError: ciggaretsPerDayInputHasError,
+    valueChangeHandler: ciggaretsPerDayChangedHandler,
+    inputBlurHandler: ciggaretsPerDayBlurHandler,
+    reset: resetCiggaretsPerDayInput,
+  } = useInput((value) => value.trim() !== '');
+
+  const {
+    value: enteredCiggaretsInOnePacket,
+    isValid: enteredCiggaretsInOnePacketIsValid,
+    hasError: ciggaretsInOnePacketInputHasError,
+    valueChangeHandler: ciggaretsInOnePacketChangedHandler,
+    inputBlurHandler: ciggaretsInOnePacketBlurHandler,
+    reset: resetCiggaretsInOnePacketInput,
+  } = useInput((value) => value.trim() !== '');
+  const {
+    value: enteredValue,
+    isValid: enteredValueIsValid,
+    hasError: valueInputHasError,
+    valueChangeHandler: valueChangedHandler,
+    inputBlurHandler: valueBlurHandler,
+    reset: resetValueInput,
+  } = useInput((value) => value.trim() !== '');
+
+  let formIsValid = false;
+
+  if(enteredDateIsValid && enteredCiggaretsPerDayIsValid && enteredCiggaretsInOnePacketIsValid && enteredValueIsValid){
+    formIsValid = true;
+  }
+
+  const currencyChangedHandler = (e) => {
     setEnteredCurrency(e.target.value);
   };
 
@@ -56,17 +54,10 @@ const Form = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (enteredDate.length !== 10) {
-      setEnteredDateIsValid(false);
-    }
-    if (enteredCiggaretsPerDay === "") {
-      setEenteredCiggaretsPerDayIsValid(false);
-    }
-    if (enteredCiggaretsInOnePacket === "") {
-      setEnteredCiggaretsInOnePacketIsValid(false);
-    }
-    if (enteredValue === "") {
-      setEnteredValueIsValid(false);
+    
+    if(!formIsValid){
+      props.onValid(formIsValid);
+      return;
     }
 
     const allData = {
@@ -77,48 +68,43 @@ const Form = (props) => {
       currency: enteredCurrency,
     };
 
-    if (
-      allData.date === "" ||
-      allData.CiggaretesPerDay === "" ||
-      allData.CiggaretsInOnePacket === "" ||
-      allData.value === ""
-    ) {
-      props.onValid(false);
-      return;
-    }
-    props.onValid(true);
+    props.onValid(formIsValid);
     props.onSendUserData(allData);
 
-    setEnteredDate("");
-    setEnteredCiggaretsPerDay("");
-    setEnteredCiggaretsInOnePacket("");
-    setEnteredValue("");
+    resetDateInput();
+    resetCiggaretsPerDayInput();
+    resetCiggaretsInOnePacketInput();
+    resetValueInput();
     setEnteredCurrency("PLN");
   };
+
+  const allError = dateInputHasError && ciggaretsPerDayInputHasError && ciggaretsInOnePacketInputHasError && valueInputHasError;
 
   return (
     <form className={classes.formContainer} onSubmit={submitHandler}>
       <div className={classes.smallContainer}>
         <label htmlFor="date">When you stopped smoking?</label>
         <input
-          className={`${enteredDateIsValid ? "" : classes.invalid}`}
+        className={`${dateInputHasError ? classes.invalid : ''}`}
           value={enteredDate}
           type="date"
           id="date"
-          onChange={dateChangeHandler}
+          onChange={dateChangedHandler}
+          onBlur={dateBlurHandler}
         />
       </div>
       <div className={classes.smallContainer}>
         <label htmlFor="many">How many cigarettes you smoke in one day?</label>
         <input
-          className={`${enteredCiggaretsPerDayIsValid ? "" : classes.invalid}`}
+          className={`${ciggaretsPerDayInputHasError ? classes.invalid : ''}`}
           value={enteredCiggaretsPerDay}
           type="number"
           id="many"
           min="1"
           max="99"
           step="1"
-          onChange={ciggaretsPerDayChangeHandler}
+          onChange={ciggaretsPerDayChangedHandler}
+          onBlur={ciggaretsPerDayBlurHandler}
         />
       </div>
       <div className={classes.smallContainer}>
@@ -126,31 +112,31 @@ const Form = (props) => {
           How many cigarettes are in one packet?
         </label>
         <input
-          className={`${
-            enteredCiggaretsInOnePacketIsValid ? "" : classes.invalid
-          }`}
+         className={`${ciggaretsInOnePacketInputHasError ? classes.invalid : ''}`}
           value={enteredCiggaretsInOnePacket}
           type="number"
           id="ciggraretes"
           min="1"
           max="25"
           step="1"
-          onChange={ciggaretsInOnePacketChangeHandler}
+          onChange={ciggaretsInOnePacketChangedHandler}
+          onBlur={ciggaretsInOnePacketBlurHandler}
         />
       </div>
       <div className={classes.smallContainer}>
         <label htmlFor="packet">How much money is one packet?</label>
         <div className={classes.price}>
           <input
-            className={`${enteredValueIsValid ? "" : classes.invalid}`}
+            className={`${valueInputHasError ? classes.invalid : ''}`}
             value={enteredValue}
             type="number"
             id="packet"
             min="1"
             step="0.1"
-            onChange={valueChangeHandler}
+            onChange={valueChangedHandler}
+            onBlur={valueBlurHandler}
           />
-          <select onChange={currencyChangeHandler}>
+          <select onChange={currencyChangedHandler}>
             <option value="PLN">PLN</option>
             <option value="$">$</option>
             <option value="€">€</option>
@@ -158,6 +144,7 @@ const Form = (props) => {
         </div>
       </div>
       <Button type="submit">How much money have i saved?</Button>
+      {allError && (<p className={classes.errorM}>You can't leave epmty filed</p>)}
     </form>
   );
 };

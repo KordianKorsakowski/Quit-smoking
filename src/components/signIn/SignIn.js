@@ -37,6 +37,11 @@ const SignIn = (props) => {
     resetLoginInput();
     resetPasswordInput();
   };
+  const createAccountHandler = (e) => {
+    e.preventDefault();
+    props.onCreate(true);
+  }
+
 
   return (
     <div>
@@ -52,17 +57,20 @@ const SignIn = (props) => {
           className={`${loginInputHasError ? classes.invalid : ''}`}
         />
         {loginInputHasError && (<p className={classes.errorM}>Can't be empty string</p>)}
-        <label>Password</label>
+        <label htmlFor="password" >Password</label>
         <input
           value={enteredPasword}
           type="password"
-          id="login"
+          id="password"
           onBlur={passwordBlurHandler}
           onChange={passwordChangedHandler}
           className={`${passwordInputHasError ? classes.invalid : ''}`}
         />
         {passwordInputHasError && (<p className={classes.errorM}>Can't be empty string and must include #</p>)}
+        <div>
         <Button type="submit" className={classes.signIn}>sign in</Button>
+        <Button className={classes.create} onClick={createAccountHandler}>Create Account</Button>
+        </div>
         <div className={classes.info}>
         <p>Remember this is dummy app don use real password and userName!!!</p>
         <p> If you want log in your login cant't be empty and password must include "#"</p>

@@ -28,9 +28,9 @@
   color:rgba(171, 35, 35, 0.687); 
 }
 
-.singIn{
+.signIn{
   background-color: rgba(10, 104, 10, 0.803);
 }
-.singIn:hover{
+.signIn:hover{
   background-color: rgba(10, 104, 10, 0.646);
 }

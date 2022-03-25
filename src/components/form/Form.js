@@ -49,9 +49,9 @@ const Form = (props) => {
   const currencyChangedHandler = (e) => {
     setEnteredCurrency(e.target.value);
   };
-  const singOutHandler = (e) => {
+  const signOutHandler = (e) => {
     e.preventDefault();
-    props.onSingOut(false);
+    props.onSignOut(false);
   }
 
   // validation
@@ -148,7 +148,7 @@ const Form = (props) => {
         </div>
       </div>
       <Button type="submit">How much money have i saved?</Button>
-      <Button onClick={singOutHandler} className={classes.singOut}>Sing Out</Button>
+      <Button onClick={signOutHandler} className={classes.signOut}>Sign Out</Button>
       {allError && (<p className={classes.errorM}>You can't leave epmty filed</p>)}
     </form>
   );

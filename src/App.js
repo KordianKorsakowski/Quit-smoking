@@ -1,19 +1,19 @@
 import { useState,  useEffect } from "react";
 import Form from "./components/form/Form";
 import Answer from "./components/answer/Answer";
-import SingIn from "./components/singIn/SingIn";
+import SignIn from "./components/signIn/SignIn";
 
 
 function App() {
 
 const [userData, setUserData] = useState();
 const [isValid, setIsValid] = useState(false);
-const [singIn, setSingIn] = useState(false);
+const [signIn, setSignIn] = useState(false);
 
 useEffect(() => {
   const infoAboutUserLog = localStorage.getItem('isLoggedIn');
   if(infoAboutUserLog === 'loggedIn'){
-    setSingIn(true);
+    setSignIn(true);
   }
 },[]);
 
@@ -23,19 +23,19 @@ const getUserDataHandler = (data) => {
 const validHandler = (value) => {
   setIsValid(value);
 }
-const singInHandler = (login) => {
+const signInHandler = (login) => {
   localStorage.setItem('isLoggedIn', 'loggedIn')
-  setSingIn(login);
+  setSignIn(login);
 }
-const singOutHandler = (login) => {
+const signOutHandler = (login) => {
   localStorage.removeItem('isLoggedIn');
-  setSingIn(login);
+  setSignIn(login);
 }
 
   return (
     <div>
-     {!singIn && <SingIn onSingIn={singInHandler}/>}
-     {singIn && <Form onSendUserData={getUserDataHandler} onValid={validHandler} onSingOut={singOutHandler}/>}
+     {!signIn && <SignIn onSignIn={signInHandler}/>}
+     {signIn && <Form onSendUserData={getUserDataHandler} onValid={validHandler} onSignOut={signOutHandler}/>}
       {isValid && <Answer data={userData}/>}
      
     </div>

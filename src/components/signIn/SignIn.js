@@ -1,8 +1,8 @@
 import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
-import classes from "./SingIn.module.css";
+import classes from "./SignIn.module.css";
 
-const SingIn = (props) => {
+const SignIn = (props) => {
     
   const {
     value: enteredLogin,
@@ -22,25 +22,25 @@ const SingIn = (props) => {
     reset: resetPasswordInput,
   } = useInput((value) => value.includes('#'));
 
-  let singInIsValid = false;
+  let signInIsValid = false;
 
   if(enteredLoginIsValid && enteredPasswordIsValid){
-    singInIsValid = true;
+    signInIsValid = true;
   }
 
-  const singInHandler = (e) => {
+  const signInHandler = (e) => {
     e.preventDefault();
-    if (!singInIsValid) {
+    if (!signInIsValid) {
       return;
     }
-    props.onSingIn(singInIsValid);
+    props.onSignIn(signInIsValid);
     resetLoginInput();
     resetPasswordInput();
   };
 
   return (
     <div>
-      <form className={classes.formContainer} onSubmit={singInHandler}>
+      <form className={classes.formContainer} onSubmit={signInHandler}>
         <h3>Quite - smoking</h3>
         <label htmlFor="login">Login</label>
         <input
@@ -62,7 +62,7 @@ const SingIn = (props) => {
           className={`${passwordInputHasError ? classes.invalid : ''}`}
         />
         {passwordInputHasError && (<p className={classes.errorM}>Can't be empty string and must include #</p>)}
-        <Button type="submit" className={classes.singIn}>sing in</Button>
+        <Button type="submit" className={classes.signIn}>sign in</Button>
         <div className={classes.info}>
         <p>Remember this is dummy app don use real password and userName!!!</p>
         <p> If you want log in your login cant't be empty and password must include "#"</p>
@@ -73,4 +73,4 @@ const SingIn = (props) => {
   );
 };
 
-export default SingIn;
+export default SignIn;

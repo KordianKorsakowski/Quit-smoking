@@ -55,14 +55,14 @@ const SingIn = (props) => {
         <label>Password</label>
         <input
           value={enteredPasword}
-          type="text"
+          type="password"
           id="login"
           onBlur={passwordBlurHandler}
           onChange={passwordChangedHandler}
           className={`${passwordInputHasError ? classes.invalid : ''}`}
         />
         {passwordInputHasError && (<p className={classes.errorM}>Can't be empty string and must include #</p>)}
-        <Button type="submit">sing in</Button>
+        <Button type="submit" className={classes.singIn}>sing in</Button>
         <div className={classes.info}>
         <p>Remember this is dummy app don use real password and userName!!!</p>
         <p> If you want log in your login cant't be empty and password must include "#"</p>

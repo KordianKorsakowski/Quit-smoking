@@ -44,3 +44,11 @@ select{
     color:rgba(171, 35, 35, 0.687); 
     margin: 0;
   }
+
+
+  .singOut{
+    background-color: rgba(171, 35, 35, 0.81);
+  }
+  .singOut:hover{
+    background-color: rgba(171, 35, 35, 0.639);
+  }

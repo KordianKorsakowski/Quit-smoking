@@ -12,6 +12,7 @@ function App() {
   const [signIn, setSignIn] = useState(false);
   const [create, setCreate] = useState(false);
   const [modalIsValid, setModalIsValid] = useState(false);
+  // const [firebaseUserInfo, setFirebaseUserInfo] = useState();
 
   useEffect(() => {
     const infoAboutUserLog = localStorage.getItem("isLoggedIn");

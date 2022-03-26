@@ -1,9 +1,28 @@
+import { useEffect, useState } from "react";
+
 import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
 import classes from "./SignIn.module.css";
 
 const SignIn = (props) => {
-    
+  const loadedData = [];
+  const [haveAccount, setHaveAccount] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        "https://react-http-ef836-default-rtdb.europe-west1.firebasedatabase.app/quite.json"
+      );
+      const responseData = await response.json();
+
+      for (const key in responseData) {
+        loadedData.push({
+          login: responseData[key].userLogin,
+          password: responseData[key].userPassword,
+        });
+      }
+    };
+    fetchData();
+  });
   const {
     value: enteredLogin,
     isValid: enteredLoginIsValid,
@@ -11,7 +30,11 @@ const SignIn = (props) => {
     valueChangeHandler: loginChangedHandler,
     inputBlurHandler: loginBlurHandler,
     reset: resetLoginInput,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput((value) => value.trim() !== "");
+
+  useEffect(() => {
+    setHaveAccount(true);
+  }, [enteredLogin]);
 
   const {
     value: enteredPasword,
@@ -20,19 +43,31 @@ const SignIn = (props) => {
     valueChangeHandler: passwordChangedHandler,
     inputBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
-  } = useInput((value) => value.includes('#'));
+  } = useInput((value) => value.trim() !== "");
+
+  useEffect(() => {
+    setHaveAccount(true);
+  }, [enteredPasword]);
 
   let signInIsValid = false;
 
-  if(enteredLoginIsValid && enteredPasswordIsValid){
-    signInIsValid = true;
-  }
-
   const signInHandler = (e) => {
     e.preventDefault();
+    loadedData.forEach((el) => {
+      if (
+        el.login === enteredLogin &&
+        el.password === enteredPasword &&
+        enteredLoginIsValid &&
+        enteredPasswordIsValid
+      ) {
+        signInIsValid = true;
+      }
+    });
     if (!signInIsValid) {
+      setHaveAccount(false);
       return;
     }
+    setHaveAccount(true);
     props.onSignIn(signInIsValid);
     resetLoginInput();
     resetPasswordInput();
@@ -40,8 +75,7 @@ const SignIn = (props) => {
   const createAccountHandler = (e) => {
     e.preventDefault();
     props.onCreate(true);
-  }
-
+  };
 
   return (
     <div>
@@ -54,29 +88,44 @@ const SignIn = (props) => {
           id="login"
           onBlur={loginBlurHandler}
           onChange={loginChangedHandler}
-          className={`${loginInputHasError ? classes.invalid : ''}`}
+          className={`${loginInputHasError ? classes.invalid : ""}`}
         />
-        {loginInputHasError && (<p className={classes.errorM}>Can't be empty string</p>)}
-        <label htmlFor="password" >Password</label>
+        {loginInputHasError && (
+          <p className={classes.errorM}>Can't be empty.</p>
+        )}
+        <label htmlFor="password">Password</label>
         <input
           value={enteredPasword}
           type="password"
           id="password"
           onBlur={passwordBlurHandler}
           onChange={passwordChangedHandler}
-          className={`${passwordInputHasError ? classes.invalid : ''}`}
+          className={`${passwordInputHasError ? classes.invalid : ""}`}
         />
-        {passwordInputHasError && (<p className={classes.errorM}>Can't be empty string and must include #</p>)}
+        {passwordInputHasError && (
+          <p className={classes.errorM}>
+            Can't be empty.
+          </p>
+        )}
+        {!haveAccount && (
+          <p className={classes.errorM}>
+            You don't have account or you enter wrong login or password.😿
+          </p>
+        )}
         <div>
-        <Button type="submit" className={classes.signIn}>sign in</Button>
-        <Button className={classes.create} onClick={createAccountHandler}>Create Account</Button>
+          <Button type="submit" className={classes.signIn}>
+            sign in
+          </Button>
+          <Button className={classes.create} onClick={createAccountHandler}>
+            Create Account
+          </Button>
         </div>
         <div className={classes.info}>
-        <p>Remember this is dummy app don use real password and userName!!!</p>
-        <p> If you want log in your login cant't be empty and password must include "#"</p>
+          <p>
+            Remember this is dummy app don use real password and userName!!!
+          </p>
         </div>
       </form>
-      
     </div>
   );
 };

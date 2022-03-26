@@ -59,6 +59,13 @@ const Create = (props) => {
     resetCheckInput();
     props.onGetUserInfo(enteredLogin, enteredPasword);
     props.onConcongratulations();
+    fetch('https://react-http-ef836-default-rtdb.europe-west1.firebasedatabase.app/quite.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        userLogin: enteredLogin,
+        userPassword: enteredPasword,
+      })
+    });
   };
 
   const backHandler = (e) => {

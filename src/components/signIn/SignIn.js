@@ -1,12 +1,11 @@
-
 import { useState, useEffect } from "react";
 import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
 import classes from "./SignIn.module.css";
 
-import {db} from "../../firebase-config";
+import { db } from "../../firebase-config";
 
-import { collection, getDocs} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const SignIn = (props) => {
   const [users, setUseres] = useState([]);
@@ -14,19 +13,15 @@ const SignIn = (props) => {
   const usersCollectionRef = collection(db, "users");
 
   useEffect(() => {
-   
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef);
       const snapshot = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setUseres(snapshot);
       console.log(snapshot);
-    }
+    };
     getUsers();
-    
-  },[]);
+  }, []);
 
-
-  
   const {
     value: enteredLogin,
     isValid: enteredLoginIsValid,
@@ -39,7 +34,6 @@ const SignIn = (props) => {
   useEffect(() => {
     setHaveAccount(true);
   }, [enteredLogin]);
-
 
   const {
     value: enteredPasword,
@@ -56,17 +50,20 @@ const SignIn = (props) => {
 
   let signInIsValid = false;
 
-
   const signInHandler = (e) => {
     e.preventDefault();
-    users.forEach(el => {
-      if(el.login === enteredLogin && el.password === enteredPasword && enteredLoginIsValid &&
-        enteredPasswordIsValid){
-          props.onLoggedUserInfo(el.login, el.id);
-          signInIsValid = true;
+    users.forEach((el) => {
+      if (
+        el.login === enteredLogin &&
+        el.password === enteredPasword &&
+        enteredLoginIsValid &&
+        enteredPasswordIsValid
+      ) {
+        props.onLoggedUserInfo(el.login, el.id);
+        signInIsValid = true;
       }
     });
-    
+
     if (!signInIsValid) {
       setHaveAccount(false);
       return;
@@ -81,10 +78,10 @@ const SignIn = (props) => {
     props.onCreate(true);
   };
 
-  const justUseHandler =(e) => { 
+  const justUseHandler = (e) => {
     e.preventDefault();
     props.onUseWithOutSignIn();
-  }
+  };
 
   return (
     <div>
@@ -112,11 +109,9 @@ const SignIn = (props) => {
           className={`${passwordInputHasError ? classes.invalid : ""}`}
         />
         {passwordInputHasError && (
-          <p className={classes.errorM}>
-            Can't be empty.
-          </p>
+          <p className={classes.errorM}>Can't be empty.</p>
         )}
-          {!haveAccount && (
+        {!haveAccount && (
           <p className={classes.errorM}>
             You don't have account or you enter wrong login or password.😿
           </p>
@@ -128,9 +123,7 @@ const SignIn = (props) => {
           <Button className={classes.create} onClick={createAccountHandler}>
             Create Account
           </Button>
-          <Button onClick={justUseHandler}>
-            Use without sign in
-          </Button>
+          <Button onClick={justUseHandler}>Use without sign in</Button>
         </div>
         <div className={classes.info}>
           <p>

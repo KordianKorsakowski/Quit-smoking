@@ -1,0 +1,52 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    background-color: rgba(171, 35, 35, 0.297);
+    cursor: pointer;
+    box-shadow: 0px 0px 25px 10px rgba(0, 0, 0, 0.303);
+}
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    z-index: 100;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+
+}
+.title{
+    font-weight: 200;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    color: rgb(171, 35, 35);
+}
+.container{
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+}
+ .disagree{
+    background-color: rgba(10, 104, 10, 0.803);
+  }
+  .disagree:hover{
+    background-color: rgba(10, 104, 10, 0.646);
+  }
+
+  .agree{
+    background-color: rgba(171, 35, 35, 0.81);
+  }
+  .agree:hover{
+    background-color: rgba(171, 35, 35, 0.639);
+  } 

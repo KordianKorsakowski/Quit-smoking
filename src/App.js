@@ -5,6 +5,7 @@ import SignIn from "./components/signIn/SignIn";
 import Create from "./components/create/Create";
 import Modal from "./components/modal/Modal";
 import Control from "./components/control/Control";
+import DeleteModal from "./components/deleteModal/DeleteModal";
 function App() {
   const [userData, setUserData] = useState();
   const [userInfo, setUserInfo] = useState();
@@ -14,23 +15,22 @@ function App() {
   const [modalIsValid, setModalIsValid] = useState(false);
   const [loggedUserInfo, setLoggedUserInfo] = useState({});
   const [cotrol, setControl] = useState(false);
+  const [acceptDeleteModal, setAcceptDeleteModal] = useState(false);
+
   useEffect(() => {
-   
     const infoAboutUserLog = localStorage.getItem("isLoggedIn");
 
     if (infoAboutUserLog === "loggedIn") {
-      const info = JSON.parse(localStorage.getItem('info'));
-      setLoggedUserInfo({login: info.login, id: info.id});
+      const info = JSON.parse(localStorage.getItem("info"));
+      setLoggedUserInfo({ login: info.login, id: info.id });
       setControl(true);
       setSignIn(true);
-    } else if(infoAboutUserLog === "quest"){
+    } else if (infoAboutUserLog === "quest") {
       setControl(true);
       setSignIn(true);
-      console.log('hello');
-    };
+      console.log("hello");
+    }
   }, []);
-  
-  
 
   const getUserDataHandler = (data) => {
     setUserData(data);
@@ -46,7 +46,7 @@ function App() {
   const signOutHandler = (login) => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("info");
-    
+
     setSignIn(login);
     setLoggedUserInfo({});
     setIsValid(false);
@@ -80,15 +80,21 @@ function App() {
     setControl(true);
   };
 
-  const loggedUserInfoHanlder =(login, id) => {
-    setLoggedUserInfo({login: login, id: id});
+  const loggedUserInfoHanlder = (login, id) => {
+    setLoggedUserInfo({ login: login, id: id });
     const info = {
-      login : login,
-      id : id, 
-    }
+      login: login,
+      id: id,
+    };
     localStorage.setItem("info", JSON.stringify(info));
-  }
+  };
 
+  const modalOpenDeleteHandler = () => {
+    setAcceptDeleteModal(true);
+  };
+  const modalCloseDeleteHandler = () => {
+    setAcceptDeleteModal(false);
+  };
 
   return (
     <>
@@ -107,7 +113,12 @@ function App() {
           onLoggedUserInfo={loggedUserInfoHanlder}
         />
       )}
-      {cotrol && <Control onSignOut={signOutHandler} />}
+      {cotrol && (
+        <Control
+          onSignOut={signOutHandler}
+          onConfirm={modalOpenDeleteHandler}
+        />
+      )}
       {signIn && (
         <Form
           onSendUserData={getUserDataHandler}
@@ -116,13 +127,20 @@ function App() {
           loggedUserInfo={loggedUserInfo}
         />
       )}
-      
+
       {isValid && signIn && <Answer data={userData} />}
       {modalIsValid && (
         <Modal
           onCloseModal={modalCloseHandler}
           onBackToSignInPanel={backToSignInPanelHandler}
           userInfo={userInfo}
+        />
+      )}
+      {acceptDeleteModal && (
+        <DeleteModal
+          onCloseDeleteModal={modalCloseDeleteHandler}
+          onSignOut={signOutHandler}
+          onModalCloseDeleteHandler={modalCloseDeleteHandler}
         />
       )}
     </>

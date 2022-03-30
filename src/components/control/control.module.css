@@ -1,35 +1,33 @@
 .container {
-    display: flex;
-    gap: .5rem;
-    justify-content: flex-end;
-    padding: 1rem 1rem 1rem 0;
-    background-color: rgb(223, 223, 223)
-
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  padding: 1rem 1rem 1rem 0;
+  background-color: rgb(223, 223, 223);
 }
 .btn {
-    border: none;
-    cursor: pointer;
-    padding: 1rem 1.5rem;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color:#000;
-    background-color: transparent;
-    border: 1px solid transparent;
-    transition: all .2s;
+  border: none;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000;
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: all 0.2s;
 }
 
-.btn:hover{
-    color: white;
+.btn:hover {
+  color: white;
 }
 .singout {
-    border-radius: 20px;
-    border: 1px solid rgba(171, 35, 35, 0.81);
-    color: rgba(171, 35, 35, 0.81) ;
+  border-radius: 20px;
+  border: 1px solid rgba(171, 35, 35, 0.81);
+  color: rgba(171, 35, 35, 0.81);
 }
-.singout:hover{
-    background-color: rgba(171, 35, 35, 0.639);
-    
+.singout:hover {
+  background-color: rgba(171, 35, 35, 0.639);
 }
 
 /* .save{

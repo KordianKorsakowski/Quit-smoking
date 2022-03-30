@@ -49,12 +49,7 @@ const Form = (props) => {
   const currencyChangedHandler = (e) => {
     setEnteredCurrency(e.target.value);
   };
-  const signOutHandler = (e) => {
-    e.preventDefault();
-    props.onSignOut(false);
-  }
 
-  // validation
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -87,6 +82,7 @@ const Form = (props) => {
   return (
 
     <form className={classes.formContainer} onSubmit={submitHandler}>
+      <h3> Hello {props.loggedUserInfo.login}!👋</h3>
       <div className={classes.smallContainer}>
         <label htmlFor="date">When you stopped smoking?</label>
         <input
@@ -149,7 +145,6 @@ const Form = (props) => {
         </div>
       </div>
       <Button type="submit">How much money have i saved?</Button>
-      <Button onClick={signOutHandler} className={classes.signOut}>Sign Out</Button>
       {allError && (<p className={classes.errorM}>You can't leave epmty filed</p>)}
     </form>
   );

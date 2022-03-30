@@ -4,7 +4,7 @@ import Answer from "./components/answer/Answer";
 import SignIn from "./components/signIn/SignIn";
 import Create from "./components/create/Create";
 import Modal from "./components/modal/Modal";
-
+import Control from "./components/control/Control";
 function App() {
   const [userData, setUserData] = useState();
   const [userInfo, setUserInfo] = useState();
@@ -12,14 +12,25 @@ function App() {
   const [signIn, setSignIn] = useState(false);
   const [create, setCreate] = useState(false);
   const [modalIsValid, setModalIsValid] = useState(false);
-
-
+  const [loggedUserInfo, setLoggedUserInfo] = useState({});
+  const [cotrol, setControl] = useState(false);
   useEffect(() => {
+   
     const infoAboutUserLog = localStorage.getItem("isLoggedIn");
+
     if (infoAboutUserLog === "loggedIn") {
+      const info = JSON.parse(localStorage.getItem('info'));
+      setLoggedUserInfo({login: info.login, id: info.id});
+      setControl(true);
       setSignIn(true);
-    }
+    } else if(infoAboutUserLog === "quest"){
+      setControl(true);
+      setSignIn(true);
+      console.log('hello');
+    };
   }, []);
+  
+  
 
   const getUserDataHandler = (data) => {
     setUserData(data);
@@ -30,10 +41,16 @@ function App() {
   const signInHandler = (login) => {
     localStorage.setItem("isLoggedIn", "loggedIn");
     setSignIn(login);
+    setControl(true);
   };
   const signOutHandler = (login) => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("info");
+    
     setSignIn(login);
+    setLoggedUserInfo({});
+    setIsValid(false);
+    setControl(false);
   };
   const createAccountHandler = (create) => {
     setCreate(create);
@@ -58,11 +75,19 @@ function App() {
   };
 
   const useWithOutSignInHandler = () => {
+    localStorage.setItem("isLoggedIn", "quest");
     setSignIn(true);
+    setControl(true);
+  };
+
+  const loggedUserInfoHanlder =(login, id) => {
+    setLoggedUserInfo({login: login, id: id});
+    const info = {
+      login : login,
+      id : id, 
+    }
+    localStorage.setItem("info", JSON.stringify(info));
   }
-
- 
-
 
 
   return (
@@ -75,15 +100,23 @@ function App() {
         />
       )}
       {!signIn && !create && (
-        <SignIn onSignIn={signInHandler} onCreate={createAccountHandler} onUseWithOutSignIn={useWithOutSignInHandler} />
+        <SignIn
+          onSignIn={signInHandler}
+          onCreate={createAccountHandler}
+          onUseWithOutSignIn={useWithOutSignInHandler}
+          onLoggedUserInfo={loggedUserInfoHanlder}
+        />
       )}
+      {cotrol && <Control onSignOut={signOutHandler} />}
       {signIn && (
         <Form
           onSendUserData={getUserDataHandler}
           onValid={validHandler}
           onSignOut={signOutHandler}
+          loggedUserInfo={loggedUserInfo}
         />
       )}
+      
       {isValid && signIn && <Answer data={userData} />}
       {modalIsValid && (
         <Modal

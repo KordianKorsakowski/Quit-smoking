@@ -62,6 +62,7 @@ const SignIn = (props) => {
     users.forEach(el => {
       if(el.login === enteredLogin && el.password === enteredPasword && enteredLoginIsValid &&
         enteredPasswordIsValid){
+          props.onLoggedUserInfo(el.login, el.id);
           signInIsValid = true;
       }
     });

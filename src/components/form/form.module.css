@@ -45,10 +45,3 @@ select{
     margin: 0;
   }
 
-
-  .signOut{
-    background-color: rgba(171, 35, 35, 0.81);
-  }
-  .signOut:hover{
-    background-color: rgba(171, 35, 35, 0.639);
-  }

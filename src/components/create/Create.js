@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
 import classes from "./create.module.css";
 
+import {db} from "../../firebase-config";
+
+import { collection, addDoc ,getDocs} from "firebase/firestore";
+
 const Create = (props) => {
-  const [compare, setCompare] = useState(true);
+  const [checkLogin, setCheckLogin] = useState(true);
+  const [users, setUseres] = useState([]);
+  const usersCollectionRef = collection(db, "users");
+
+  useEffect(() => {
+   
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      const snapshot = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setUseres(snapshot);
+      console.log(snapshot);
+    }
+    getUsers();
+    
+  },[]);
+ 
   const {
     value: enteredLogin,
     isValid: enteredLoginIsValid,
@@ -13,6 +32,10 @@ const Create = (props) => {
     inputBlurHandler: loginBlurHandler,
     reset: resetLoginInput,
   } = useInput((value) => value.trim() !== "");
+
+  useEffect(() => {
+    setCheckLogin(true);
+  },[enteredLogin]);
 
   const {
     value: enteredPasword,
@@ -32,8 +55,8 @@ const Create = (props) => {
     reset: resetCheckInput,
   } = useInput((value) => value.trim() !== "");
 
-  const matchErrorRestHandler = () => {
-    setCompare(true);
+  const createUser = async () => {
+    await addDoc(usersCollectionRef, { login: enteredLogin, password: enteredPasword });
   };
 
   let createAccountIsValid = false;
@@ -43,29 +66,28 @@ const Create = (props) => {
 
   const createAccountHandler = (e) => {
     e.preventDefault();
+    users.forEach(el => {
+      if(el.login === enteredLogin){
+        createAccountIsValid = false;
+        setCheckLogin(false)
+      }
+    })
 
     if (!createAccountIsValid) {
       return;
     }
     if (enteredPasword !== enteredCheck) {
-      setCompare(false);
+      
       resetCheckInput();
       resetPasswordInput();
       return;
     }
-    setCompare(true);
+    createUser()
     resetLoginInput();
     resetPasswordInput();
     resetCheckInput();
     props.onGetUserInfo(enteredLogin, enteredPasword);
     props.onConcongratulations();
-    fetch('https://react-http-ef836-default-rtdb.europe-west1.firebasedatabase.app/quite.json', {
-      method: 'POST',
-      body: JSON.stringify({
-        userLogin: enteredLogin,
-        userPassword: enteredPasword,
-      })
-    });
   };
 
   const backHandler = (e) => {
@@ -77,6 +99,9 @@ const Create = (props) => {
     <div>
       <form className={classes.formContainer} onSubmit={createAccountHandler}>
         <h3>Create your Account</h3>
+        {!checkLogin && (
+          <p className={classes.errorM}>This Login exist. Please choose a different name 😇</p>
+        )}
         <label htmlFor="login">Login</label>
         <input
           value={enteredLogin}
@@ -92,39 +117,31 @@ const Create = (props) => {
         <label htmlFor="password">Password</label>
         <input
           value={enteredPasword}
-          type="text"
+          type="password"
           id="password"
           onBlur={passwordBlurHandler}
           onChange={passwordChangedHandler}
-          onClick={matchErrorRestHandler}
-          className={`${passwordInputHasError ? classes.invalid : ""} ${
-            !compare ? classes.invalid : ""
-          }`}
+          
+          className={`${passwordInputHasError ? classes.invalid : ""}`}
         />
         {passwordInputHasError && (
           <p className={classes.errorM}>Can't be empty string.</p>
         )}
-        {!compare && (
-          <p className={classes.errorM}>Try again. Passwords don't match.</p>
-        )}
+        
         <label htmlFor="check">Repeat Password</label>
         <input
           value={enteredCheck}
-          type="text"
+          type="password"
           id="check"
           onBlur={checkBlurHandler}
           onChange={checkChangedHandler}
-          onClick={matchErrorRestHandler}
-          className={`${checkInputHasError ? classes.invalid : ""} ${
-            !compare ? classes.invalid : ""
-          }`}
+         
+          className={`${checkInputHasError ? classes.invalid : ""}`}
         />
         {checkInputHasError && (
           <p className={classes.errorM}>Can't be empty string.</p>
         )}
-        {!compare && (
-          <p className={classes.errorM}>Try again. Passwords don't match.</p>
-        )}
+        
         <div>
           <Button className={classes.create} type="submit">
             Create Account

@@ -85,6 +85,7 @@ const Form = (props) => {
   const allError = dateInputHasError && ciggaretsPerDayInputHasError && ciggaretsInOnePacketInputHasError && valueInputHasError;
 
   return (
+
     <form className={classes.formContainer} onSubmit={submitHandler}>
       <div className={classes.smallContainer}>
         <label htmlFor="date">When you stopped smoking?</label>

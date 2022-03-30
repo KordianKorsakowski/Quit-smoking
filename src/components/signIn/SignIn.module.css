@@ -35,9 +35,15 @@
   background-color: rgba(10, 104, 10, 0.646);
 }
 .create{
-  margin-left: 5px;
   background-color: rgba(242, 152, 55, 0.803);
 }
 .create:hover{
   background-color: rgba(242, 152, 55, 0.612);
+}
+
+
+.container{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

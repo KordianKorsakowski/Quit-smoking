@@ -12,7 +12,7 @@ function App() {
   const [signIn, setSignIn] = useState(false);
   const [create, setCreate] = useState(false);
   const [modalIsValid, setModalIsValid] = useState(false);
-  // const [firebaseUserInfo, setFirebaseUserInfo] = useState();
+
 
   useEffect(() => {
     const infoAboutUserLog = localStorage.getItem("isLoggedIn");
@@ -57,6 +57,14 @@ function App() {
     setUserInfo({ login: login, password: password });
   };
 
+  const useWithOutSignInHandler = () => {
+    setSignIn(true);
+  }
+
+ 
+
+
+
   return (
     <>
       {create && (
@@ -67,7 +75,7 @@ function App() {
         />
       )}
       {!signIn && !create && (
-        <SignIn onSignIn={signInHandler} onCreate={createAccountHandler} />
+        <SignIn onSignIn={signInHandler} onCreate={createAccountHandler} onUseWithOutSignIn={useWithOutSignInHandler} />
       )}
       {signIn && (
         <Form

@@ -1,28 +1,32 @@
-import { useEffect, useState } from "react";
 
+import { useState, useEffect } from "react";
 import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
 import classes from "./SignIn.module.css";
 
-const SignIn = (props) => {
-  const loadedData = [];
-  const [haveAccount, setHaveAccount] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        "https://react-http-ef836-default-rtdb.europe-west1.firebasedatabase.app/quite.json"
-      );
-      const responseData = await response.json();
+import {db} from "../../firebase-config";
 
-      for (const key in responseData) {
-        loadedData.push({
-          login: responseData[key].userLogin,
-          password: responseData[key].userPassword,
-        });
-      }
-    };
-    fetchData();
-  });
+import { collection, getDocs} from "firebase/firestore";
+
+const SignIn = (props) => {
+  const [users, setUseres] = useState([]);
+  const [haveAccount, setHaveAccount] = useState(true);
+  const usersCollectionRef = collection(db, "users");
+
+  useEffect(() => {
+   
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      const snapshot = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setUseres(snapshot);
+      console.log(snapshot);
+    }
+    getUsers();
+    
+  },[]);
+
+
+  
   const {
     value: enteredLogin,
     isValid: enteredLoginIsValid,
@@ -35,6 +39,7 @@ const SignIn = (props) => {
   useEffect(() => {
     setHaveAccount(true);
   }, [enteredLogin]);
+
 
   const {
     value: enteredPasword,
@@ -51,18 +56,16 @@ const SignIn = (props) => {
 
   let signInIsValid = false;
 
+
   const signInHandler = (e) => {
     e.preventDefault();
-    loadedData.forEach((el) => {
-      if (
-        el.login === enteredLogin &&
-        el.password === enteredPasword &&
-        enteredLoginIsValid &&
-        enteredPasswordIsValid
-      ) {
-        signInIsValid = true;
+    users.forEach(el => {
+      if(el.login === enteredLogin && el.password === enteredPasword && enteredLoginIsValid &&
+        enteredPasswordIsValid){
+          signInIsValid = true;
       }
     });
+    
     if (!signInIsValid) {
       setHaveAccount(false);
       return;
@@ -76,6 +79,11 @@ const SignIn = (props) => {
     e.preventDefault();
     props.onCreate(true);
   };
+
+  const justUseHandler =(e) => { 
+    e.preventDefault();
+    props.onUseWithOutSignIn();
+  }
 
   return (
     <div>
@@ -107,17 +115,20 @@ const SignIn = (props) => {
             Can't be empty.
           </p>
         )}
-        {!haveAccount && (
+          {!haveAccount && (
           <p className={classes.errorM}>
             You don't have account or you enter wrong login or password.😿
           </p>
         )}
-        <div>
+        <div className={classes.container}>
           <Button type="submit" className={classes.signIn}>
             sign in
           </Button>
           <Button className={classes.create} onClick={createAccountHandler}>
             Create Account
+          </Button>
+          <Button onClick={justUseHandler}>
+            Use without sign in
           </Button>
         </div>
         <div className={classes.info}>

@@ -3,9 +3,9 @@ import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
 import classes from "./create.module.css";
 
-import {db} from "../../firebase-config";
+import { db } from "../../firebase-config";
 
-import { collection, addDoc ,getDocs} from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 const Create = (props) => {
   const [checkLogin, setCheckLogin] = useState(true);
@@ -13,17 +13,15 @@ const Create = (props) => {
   const usersCollectionRef = collection(db, "users");
 
   useEffect(() => {
-   
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef);
       const snapshot = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setUseres(snapshot);
       console.log(snapshot);
-    }
+    };
     getUsers();
-    
-  },[]);
- 
+  }, []);
+
   const {
     value: enteredLogin,
     isValid: enteredLoginIsValid,
@@ -35,7 +33,7 @@ const Create = (props) => {
 
   useEffect(() => {
     setCheckLogin(true);
-  },[enteredLogin]);
+  }, [enteredLogin]);
 
   const {
     value: enteredPasword,
@@ -56,7 +54,17 @@ const Create = (props) => {
   } = useInput((value) => value.trim() !== "");
 
   const createUser = async () => {
-    await addDoc(usersCollectionRef, { login: enteredLogin, password: enteredPasword });
+    await addDoc(usersCollectionRef, {
+      login: enteredLogin,
+      password: enteredPasword,
+      data: {
+        date: '' ,
+        CiggaretesPerDay:'' ,
+        CiggaretsInOnePacket:'' ,
+        value:'' ,
+        currency:'' 
+      },
+    });
   };
 
   let createAccountIsValid = false;
@@ -66,23 +74,22 @@ const Create = (props) => {
 
   const createAccountHandler = (e) => {
     e.preventDefault();
-    users.forEach(el => {
-      if(el.login === enteredLogin){
+    users.forEach((el) => {
+      if (el.login === enteredLogin) {
         createAccountIsValid = false;
-        setCheckLogin(false)
+        setCheckLogin(false);
       }
-    })
+    });
 
     if (!createAccountIsValid) {
       return;
     }
     if (enteredPasword !== enteredCheck) {
-      
       resetCheckInput();
       resetPasswordInput();
       return;
     }
-    createUser()
+    createUser();
     resetLoginInput();
     resetPasswordInput();
     resetCheckInput();
@@ -100,7 +107,9 @@ const Create = (props) => {
       <form className={classes.formContainer} onSubmit={createAccountHandler}>
         <h3>Create your Account</h3>
         {!checkLogin && (
-          <p className={classes.errorM}>This Login exist. Please choose a different name 😇</p>
+          <p className={classes.errorM}>
+            This Login exist. Please choose a different name 😇
+          </p>
         )}
         <label htmlFor="login">Login</label>
         <input
@@ -121,13 +130,12 @@ const Create = (props) => {
           id="password"
           onBlur={passwordBlurHandler}
           onChange={passwordChangedHandler}
-          
           className={`${passwordInputHasError ? classes.invalid : ""}`}
         />
         {passwordInputHasError && (
           <p className={classes.errorM}>Can't be empty string.</p>
         )}
-        
+
         <label htmlFor="check">Repeat Password</label>
         <input
           value={enteredCheck}
@@ -135,13 +143,12 @@ const Create = (props) => {
           id="check"
           onBlur={checkBlurHandler}
           onChange={checkChangedHandler}
-         
           className={`${checkInputHasError ? classes.invalid : ""}`}
         />
         {checkInputHasError && (
           <p className={classes.errorM}>Can't be empty string.</p>
         )}
-        
+
         <div>
           <Button className={classes.create} type="submit">
             Create Account

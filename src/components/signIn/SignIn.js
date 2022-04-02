@@ -59,8 +59,11 @@ const SignIn = (props) => {
         enteredLoginIsValid &&
         enteredPasswordIsValid
       ) {
-        props.onLoggedUserInfo(el.login, el.id);
+        props.onLoggedUserInfo(el.login, el.id, el.data);
         signInIsValid = true;
+        if (el.data.value !== "") {
+          props.onShowAnswerForLoggedUser(true);
+        }
       }
     });
 
@@ -81,6 +84,7 @@ const SignIn = (props) => {
   const justUseHandler = (e) => {
     e.preventDefault();
     props.onUseWithOutSignIn();
+    props.onFormOpen();
   };
 
   return (

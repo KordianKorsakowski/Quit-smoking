@@ -13,10 +13,12 @@ function App() {
   const [signIn, setSignIn] = useState(false);
   const [create, setCreate] = useState(false);
   const [modalIsValid, setModalIsValid] = useState(false);
-  const [loggedUserInfo, setLoggedUserInfo] = useState({});
+  const [loggedUserInfo, setLoggedUserInfo] = useState();
   const [cotrol, setControl] = useState(false);
   const [acceptDeleteModal, setAcceptDeleteModal] = useState(false);
-
+  const [showAnswerForLoggedUser, setShowAnswerForLoggedUSer] = useState(false);
+  const [saveYourChanges, setSaveYourChanges] = useState(false);
+  const [closeForm, setCloseForm] = useState(true);
   useEffect(() => {
     const infoAboutUserLog = localStorage.getItem("isLoggedIn");
 
@@ -25,6 +27,7 @@ function App() {
       setLoggedUserInfo({ login: info.login, id: info.id });
       setControl(true);
       setSignIn(true);
+      setShowAnswerForLoggedUSer(true);
     } else if (infoAboutUserLog === "quest") {
       setControl(true);
       setSignIn(true);
@@ -46,7 +49,6 @@ function App() {
   const signOutHandler = (login) => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("info");
-
     setSignIn(login);
     setLoggedUserInfo({});
     setIsValid(false);
@@ -80,11 +82,12 @@ function App() {
     setControl(true);
   };
 
-  const loggedUserInfoHanlder = (login, id) => {
+  const loggedUserInfoHanlder = (login, id, data) => {
     setLoggedUserInfo({ login: login, id: id });
     const info = {
       login: login,
       id: id,
+      data: data,
     };
     localStorage.setItem("info", JSON.stringify(info));
   };
@@ -94,6 +97,19 @@ function App() {
   };
   const modalCloseDeleteHandler = () => {
     setAcceptDeleteModal(false);
+  };
+  const showAnswerForLoggedUserHandler = (value) => {
+    setShowAnswerForLoggedUSer(value);
+  };
+
+  const saveYourChangesHandler = (value) => {
+    setSaveYourChanges(value);
+  };
+  const closeFormHandler = () => {
+    setCloseForm(false);
+  };
+  const openFormHandler = () => {
+    setCloseForm(true);
   };
 
   return (
@@ -111,24 +127,36 @@ function App() {
           onCreate={createAccountHandler}
           onUseWithOutSignIn={useWithOutSignInHandler}
           onLoggedUserInfo={loggedUserInfoHanlder}
+          onShowAnswerForLoggedUser={showAnswerForLoggedUserHandler}
+          onFormOpen={openFormHandler}
         />
       )}
       {cotrol && (
         <Control
           onSignOut={signOutHandler}
           onConfirm={modalOpenDeleteHandler}
+          onShowAnswerForLoggedUser={showAnswerForLoggedUserHandler}
+          data={userData}
+          save={saveYourChanges}
+          onSave={saveYourChangesHandler}
+          update={showAnswerForLoggedUser}
+          onFormOpen={openFormHandler}
         />
       )}
-      {signIn && (
+
+      {showAnswerForLoggedUser && <Answer />}
+      {isValid && signIn && <Answer data={userData} />}
+      {signIn && !showAnswerForLoggedUser && closeForm && (
         <Form
           onSendUserData={getUserDataHandler}
           onValid={validHandler}
           onSignOut={signOutHandler}
           loggedUserInfo={loggedUserInfo}
+          onSave={saveYourChangesHandler}
+          onCloseForm={closeFormHandler}
         />
       )}
 
-      {isValid && signIn && <Answer data={userData} />}
       {modalIsValid && (
         <Modal
           onCloseModal={modalCloseHandler}

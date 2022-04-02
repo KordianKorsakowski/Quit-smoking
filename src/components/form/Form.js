@@ -5,6 +5,7 @@ import classes from "./form.module.css";
 
 const Form = (props) => {
   const [enteredCurrency, setEnteredCurrency] = useState("PLN");
+
   const {
     value: enteredDate,
     isValid: enteredDateIsValid,
@@ -12,7 +13,7 @@ const Form = (props) => {
     valueChangeHandler: dateChangedHandler,
     inputBlurHandler: dateBlurHandler,
     reset: resetDateInput,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput((value) => value.trim() !== "");
 
   const {
     value: enteredCiggaretsPerDay,
@@ -21,7 +22,7 @@ const Form = (props) => {
     valueChangeHandler: ciggaretsPerDayChangedHandler,
     inputBlurHandler: ciggaretsPerDayBlurHandler,
     reset: resetCiggaretsPerDayInput,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput((value) => value.trim() !== "");
 
   const {
     value: enteredCiggaretsInOnePacket,
@@ -30,7 +31,7 @@ const Form = (props) => {
     valueChangeHandler: ciggaretsInOnePacketChangedHandler,
     inputBlurHandler: ciggaretsInOnePacketBlurHandler,
     reset: resetCiggaretsInOnePacketInput,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput((value) => value.trim() !== "");
   const {
     value: enteredValue,
     isValid: enteredValueIsValid,
@@ -38,11 +39,16 @@ const Form = (props) => {
     valueChangeHandler: valueChangedHandler,
     inputBlurHandler: valueBlurHandler,
     reset: resetValueInput,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput((value) => value.trim() !== "");
 
   let formIsValid = false;
 
-  if(enteredDateIsValid && enteredCiggaretsPerDayIsValid && enteredCiggaretsInOnePacketIsValid && enteredValueIsValid){
+  if (
+    enteredDateIsValid &&
+    enteredCiggaretsPerDayIsValid &&
+    enteredCiggaretsInOnePacketIsValid &&
+    enteredValueIsValid
+  ) {
     formIsValid = true;
   }
 
@@ -50,11 +56,10 @@ const Form = (props) => {
     setEnteredCurrency(e.target.value);
   };
 
-
   const submitHandler = (e) => {
     e.preventDefault();
-    
-    if(!formIsValid){
+
+    if (!formIsValid) {
       props.onValid(formIsValid);
       return;
     }
@@ -66,9 +71,10 @@ const Form = (props) => {
       value: enteredValue,
       currency: enteredCurrency,
     };
-
+    props.onCloseForm();
     props.onValid(formIsValid);
     props.onSendUserData(allData);
+    props.onSave(true);
 
     resetDateInput();
     resetCiggaretsPerDayInput();
@@ -77,16 +83,18 @@ const Form = (props) => {
     setEnteredCurrency("PLN");
   };
 
-  const allError = dateInputHasError && ciggaretsPerDayInputHasError && ciggaretsInOnePacketInputHasError && valueInputHasError;
+  const allError =
+    dateInputHasError &&
+    ciggaretsPerDayInputHasError &&
+    ciggaretsInOnePacketInputHasError &&
+    valueInputHasError;
 
   return (
-
     <form className={classes.formContainer} onSubmit={submitHandler}>
-      <h3> Hello {props.loggedUserInfo.login}!👋</h3>
       <div className={classes.smallContainer}>
         <label htmlFor="date">When you stopped smoking?</label>
         <input
-        className={`${dateInputHasError ? classes.invalid : ''}`}
+          className={`${dateInputHasError ? classes.invalid : ""}`}
           value={enteredDate}
           type="date"
           id="date"
@@ -97,7 +105,7 @@ const Form = (props) => {
       <div className={classes.smallContainer}>
         <label htmlFor="many">How many cigarettes you smoke in one day?</label>
         <input
-          className={`${ciggaretsPerDayInputHasError ? classes.invalid : ''}`}
+          className={`${ciggaretsPerDayInputHasError ? classes.invalid : ""}`}
           value={enteredCiggaretsPerDay}
           type="number"
           id="many"
@@ -113,7 +121,9 @@ const Form = (props) => {
           How many cigarettes are in one packet?
         </label>
         <input
-         className={`${ciggaretsInOnePacketInputHasError ? classes.invalid : ''}`}
+          className={`${
+            ciggaretsInOnePacketInputHasError ? classes.invalid : ""
+          }`}
           value={enteredCiggaretsInOnePacket}
           type="number"
           id="ciggraretes"
@@ -128,7 +138,7 @@ const Form = (props) => {
         <label htmlFor="packet">How much money is one packet?</label>
         <div className={classes.price}>
           <input
-            className={`${valueInputHasError ? classes.invalid : ''}`}
+            className={`${valueInputHasError ? classes.invalid : ""}`}
             value={enteredValue}
             type="number"
             id="packet"
@@ -145,7 +155,9 @@ const Form = (props) => {
         </div>
       </div>
       <Button type="submit">How much money have i saved?</Button>
-      {allError && (<p className={classes.errorM}>You can't leave epmty filed</p>)}
+      {allError && (
+        <p className={classes.errorM}>You can't leave epmty filed</p>
+      )}
     </form>
   );
 };

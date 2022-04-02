@@ -1,8 +1,8 @@
 .container {
   display: flex;
   gap: 0.5rem;
-  justify-content: flex-end;
-  padding: 1rem 1rem 1rem 0;
+  justify-content: space-between;
+  padding: 1rem;
   background-color: rgb(223, 223, 223);
 }
 .btn {
@@ -27,27 +27,32 @@
   color: rgba(171, 35, 35, 0.81);
 }
 .singout:hover {
-  background-color: rgba(171, 35, 35, 0.639);
+  border: 1px solid #000;
+  color: #000;
 }
 
-/* .save{
-    background-color: rgba(10, 104, 10, 0.803);
-  }
-  .save:hover{
-    background-color: rgba(10, 104, 10, 0.646);
-  }
+.save {
+  border-radius: 20px;
+  border: 1px solid rgba(10, 104, 10, 0.803);
+  color: rgba(10, 104, 10, 0.803);
+}
+.save:hover {
+  border: 1px solid #000;
+  color: #000;
+}
+.pleasSaved {
+  text-align: center;
+  color: rgb(171, 35, 35);
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+.saved {
+  text-align: center;
+  color: rgb(10, 104, 10);
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
 
-  .update{
-    
-    background-color: rgba(242, 152, 55, 0.803);
-  }
-  .update:hover{
-    background-color: rgba(242, 152, 55, 0.612);
-  }
 
-  .signOut{
-    background-color: rgba(171, 35, 35, 0.81);
-  }
-  .signOut:hover{
-    background-color: rgba(171, 35, 35, 0.639);
-  } */

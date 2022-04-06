@@ -31,7 +31,6 @@ function App() {
     } else if (infoAboutUserLog === "quest") {
       setControl(true);
       setSignIn(true);
-      console.log("hello");
     }
   }, []);
 

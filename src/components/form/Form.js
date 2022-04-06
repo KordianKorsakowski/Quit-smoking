@@ -3,9 +3,22 @@ import useInput from "../hooks/use-input";
 import Button from "../UI/Button";
 import classes from "./form.module.css";
 
+let today;
+(() => {
+  today = new Date();
+  let day = today.getDate();
+  let month = today.getMonth() + 1;
+  const year = today.getFullYear();
+
+  if (day < 10) day = `0${day}`;
+  if (month < 10) month = `0${month}`;
+
+  today = `${year}-${month}-${day}`;
+  console.log("hello");
+})();
+
 const Form = (props) => {
   const [enteredCurrency, setEnteredCurrency] = useState("PLN");
-  
 
   const {
     value: enteredDate,
@@ -83,7 +96,6 @@ const Form = (props) => {
     resetValueInput();
     setEnteredCurrency("PLN");
   };
-  
 
   const allError =
     dateInputHasError &&
@@ -100,6 +112,7 @@ const Form = (props) => {
           value={enteredDate}
           type="date"
           id="date"
+          max={today}
           onChange={dateChangedHandler}
           onBlur={dateBlurHandler}
         />

@@ -23,12 +23,13 @@ const ModalOverlay = (props) => {
     await deleteDoc(userDoc);
     props.onSignOut(false);
     props.onModalCloseDeleteHandler();
+    props.onShowAnswerForLoggedUser(false);
   };
   return (
     <div className={classes.modal}>
-      <h1 className={classes.title}>
+      <h4 className={classes.title}>
         Are you sure you want to delete your Account?😤
-      </h1>
+      </h4>
       <div className={classes.container}>
         <Button className={classes.agree} onClick={deleteUser}>
           Yes
@@ -53,6 +54,7 @@ const DeleteModal = (props) => {
           onCloseDeleteModal={props.onCloseDeleteModal}
           onSignOut={props.onSignOut}
           onModalCloseDeleteHandler={props.onModalCloseDeleteHandler}
+          onShowAnswerForLoggedUser={props.onShowAnswerForLoggedUser}
         />,
         document.getElementById("overlay-root")
       )}

@@ -22,9 +22,7 @@ const Answer = (props) => {
       }
     }
   }, []);
-  console.log(loggedUserData);
   if (logged) {
-    console.log(new Date(loggedUserData.date.seconds * 1000));
     const loggedData = {
       date: new Date(loggedUserData.date.seconds * 1000),
       CiggaretesPerDay: loggedUserData.CiggaretesPerDay,

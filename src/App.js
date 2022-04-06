@@ -144,7 +144,7 @@ function App() {
         />
       )}
 
-      {showAnswerForLoggedUser && <Answer />}
+      {showAnswerForLoggedUser && <Answer/>}
       {isValid && signIn && <Answer data={userData} />}
       {signIn && !showAnswerForLoggedUser && closeForm && (
         <Form
@@ -169,6 +169,7 @@ function App() {
           onCloseDeleteModal={modalCloseDeleteHandler}
           onSignOut={signOutHandler}
           onModalCloseDeleteHandler={modalCloseDeleteHandler}
+          onShowAnswerForLoggedUser={showAnswerForLoggedUserHandler} 
         />
       )}
     </>

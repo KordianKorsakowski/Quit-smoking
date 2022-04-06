@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 62.5%;
 }
 
 body {
@@ -13,3 +14,91 @@ body {
   background-color: #b1b1b1;
 }
 
+h3 {
+  font-size: 2rem;
+}
+h4 {
+  font-size: 2rem;
+  font-weight: 200;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 0;
+}
+
+label {
+  letter-spacing: 1px;
+  font-size: 1.8rem;
+}
+input {
+  font: inherit;
+  font-size: 1.5rem;
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 32rem;
+}
+li {
+  font-size: 1.8rem;
+}
+p {
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  p {
+    font-size: 1.5rem;
+  }
+  h4 {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 500px) {
+  input {
+    width: 25rem;
+    font-size: 1.4rem;
+    padding: 0.5rem;
+  }
+  label {
+    font-size: 1.5rem;
+  }
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 410px) {
+  label {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1.8rem;
+  }
+  h4 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 370px) {
+  input {
+    width: 20rem;
+  }
+  label {
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 320px) {
+  label {
+    font-size: 1.2rem;
+  }
+  input {
+    width: 17rem;
+  }
+  li {
+    font-size: 1.5rem;
+  }
+}

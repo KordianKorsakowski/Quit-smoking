@@ -17,7 +17,6 @@ const SignIn = (props) => {
       const data = await getDocs(usersCollectionRef);
       const snapshot = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setUseres(snapshot);
-      console.log(snapshot);
     };
     getUsers();
   }, []);

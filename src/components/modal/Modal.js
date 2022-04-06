@@ -8,7 +8,7 @@ const Backdrop = (props) => {
 const ModalOverlay = (props) => {
   return (
     <div className={classes.modal}>
-      <h1 className={classes.title}>Your account has been created🥳</h1>
+      <h4 className={classes.title}>Your account has been created🥳</h4>
       <div>
         <p>🎗 Your Login: {props.userInfo.login}</p>
         <p>🔑 Your Password: {props.userInfo.password}</p>

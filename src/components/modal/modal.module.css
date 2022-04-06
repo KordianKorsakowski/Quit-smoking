@@ -25,9 +25,6 @@
   padding: 1rem;
 }
 .title {
-  font-weight: 200;
-  text-transform: uppercase;
-  letter-spacing: 2px;
   color: rgb(10, 104, 10);
 }
 
@@ -36,4 +33,21 @@
 }
 .signIn:hover {
   background-color: rgba(10, 104, 10, 0.646);
+}
+
+@media (max-width: 700px) {
+  .modal {
+    width: 70%;
+  }
+}
+
+@media (max-width: 450px) {
+  .modal {
+    width: 80%;
+  }
+}
+@media (max-width: 320px) {
+  .modal {
+    width: 90%;
+  }
 }

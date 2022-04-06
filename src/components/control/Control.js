@@ -6,7 +6,7 @@ import { updateDoc, doc } from "firebase/firestore";
 const Control = (props) => {
   const [userId, setUserId] = useState("");
   const [thankYou, setThankYou] = useState(false);
-  const [name, setName] = useState("visitor");
+  const [name, setName] = useState("Visitor");
   const [haveAccount, setHaveAccount] = useState(true);
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const Control = (props) => {
 
   const saveUser = async () => {
     const userDoc = doc(db, "users", userId);
-    console.log(props.data);
     const saveData = { data: props.data };
     await updateDoc(userDoc, saveData);
     setThankYou(true);
@@ -51,7 +50,7 @@ const Control = (props) => {
   return (
     <>
       <div className={classes.container}>
-        <p>{`hello --- ${name} 👋`}</p>
+        <p className={classes.welcome}>{`WELCOME --- ${name} 👋`}</p>
         <div className={classes.btnContainer}>
           {props.save && haveAccount && (
             <button

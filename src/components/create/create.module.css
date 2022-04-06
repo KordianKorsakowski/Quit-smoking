@@ -6,9 +6,9 @@
   gap: 1rem;
   align-items: center;
   background-color: rgba(10, 104, 10, 0.201);
-  padding: 3rem;
+  padding: 4rem;
   border-radius: 5px;
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 .invalid {
   border: 1px solid rgba(171, 35, 35, 0.687);
@@ -24,7 +24,7 @@
 }
 .info p {
   margin: 0;
-  font-size: 1rem;
+
   color: rgba(171, 35, 35, 0.687);
 }
 
@@ -53,4 +53,22 @@
 .invalid {
   border: 1px solid rgba(171, 35, 35, 0.687);
   background-color: rgba(254, 66, 66, 0.187);
+}
+
+@media (max-width: 700px) {
+  .formContainer {
+    padding: 2rem 1rem;
+    width: 90vw;
+  }
+  .info {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 340px) {
+  .btnContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }

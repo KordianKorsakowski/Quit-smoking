@@ -5,6 +5,7 @@ import classes from "./form.module.css";
 
 const Form = (props) => {
   const [enteredCurrency, setEnteredCurrency] = useState("PLN");
+  
 
   const {
     value: enteredDate,
@@ -82,6 +83,7 @@ const Form = (props) => {
     resetValueInput();
     setEnteredCurrency("PLN");
   };
+  
 
   const allError =
     dateInputHasError &&

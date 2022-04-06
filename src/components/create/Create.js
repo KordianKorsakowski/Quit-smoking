@@ -17,7 +17,6 @@ const Create = (props) => {
       const data = await getDocs(usersCollectionRef);
       const snapshot = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setUseres(snapshot);
-      console.log(snapshot);
     };
     getUsers();
   }, []);
@@ -58,11 +57,11 @@ const Create = (props) => {
       login: enteredLogin,
       password: enteredPasword,
       data: {
-        date: '' ,
-        CiggaretesPerDay:'' ,
-        CiggaretsInOnePacket:'' ,
-        value:'' ,
-        currency:'' 
+        date: "",
+        CiggaretesPerDay: "",
+        CiggaretsInOnePacket: "",
+        value: "",
+        currency: "",
       },
     });
   };
@@ -149,7 +148,7 @@ const Create = (props) => {
           <p className={classes.errorM}>Can't be empty string.</p>
         )}
 
-        <div>
+        <div className={classes.btnContainer}>
           <Button className={classes.create} type="submit">
             Create Account
           </Button>

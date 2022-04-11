@@ -19,7 +19,10 @@ const SignIn = (props) => {
       setUseres(snapshot);
     };
     getUsers();
-  }, []);
+    return () => {
+      setUseres([]);
+    };
+  },[]);
 
   const {
     value: enteredLogin,

@@ -11,7 +11,7 @@ const Create = (props) => {
   const [checkLogin, setCheckLogin] = useState(true);
   const [users, setUseres] = useState([]);
   const usersCollectionRef = collection(db, "users");
-
+  
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef);
@@ -19,7 +19,9 @@ const Create = (props) => {
       setUseres(snapshot);
     };
     getUsers();
+    return () => {};
   }, []);
+  
 
   const {
     value: enteredLogin,

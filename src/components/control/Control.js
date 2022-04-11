@@ -8,6 +8,14 @@ const Control = (props) => {
   const [thankYou, setThankYou] = useState(false);
   const [name, setName] = useState("Visitor");
   const [haveAccount, setHaveAccount] = useState(true);
+  const [showBtnSave, setShowBtnSave] = useState(true);
+  const [showBtnUpdate, setShowBtnUpdate] = useState(true);
+
+  useEffect (() => {
+      if(props.save){
+        setShowBtnSave(true);
+      }
+  },[props.save]);
 
   useEffect(() => {
     const infoAboutUserLog = localStorage.getItem("isLoggedIn");
@@ -38,21 +46,31 @@ const Control = (props) => {
   const saveUser = async () => {
     const userDoc = doc(db, "users", userId);
     const saveData = { data: props.data };
+    props.onLoggedUserInfo(name, userId, props.data)
     await updateDoc(userDoc, saveData);
+    localStorage.removeItem('update');
+    localStorage.removeItem('showSaveBTN');
+    setShowBtnSave(false);
+    setShowBtnUpdate(true);
     setThankYou(true);
+    props.onSave(false);
   };
 
   const updateUserHandler = () => {
     props.onShowAnswerForLoggedUser(false);
+    props.closeAnswer(false);
     props.onFormOpen();
+    localStorage.setItem('update','true');
+    setShowBtnUpdate(false);
+    setThankYou(false);
   };
-
+  
   return (
     <>
       <div className={classes.container}>
         <p className={classes.welcome}>{`WELCOME --- ${name} 👋`}</p>
         <div className={classes.btnContainer}>
-          {props.save && haveAccount && (
+          {props.save && haveAccount && showBtnSave && (
             <button
               className={`${classes.btn} ${props.save ? classes.save : ""}`}
               onClick={saveUser}
@@ -65,7 +83,7 @@ const Control = (props) => {
               Delete Account
             </button>
           )}
-          {props.update && haveAccount && (
+          {haveAccount && showBtnUpdate &&(
             <button className={classes.btn} onClick={updateUserHandler}>
               Update
             </button>
@@ -78,7 +96,7 @@ const Control = (props) => {
           </button>
         </div>
       </div>
-      {props.save && !thankYou && haveAccount && (
+      {props.save && !thankYou && haveAccount && showBtnSave && (
         <p className={classes.pleasSaved}>
           Your Change is not saved pleas do it!
         </p>

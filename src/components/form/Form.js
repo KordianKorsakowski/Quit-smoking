@@ -14,11 +14,11 @@ let today;
   if (month < 10) month = `0${month}`;
 
   today = `${year}-${month}-${day}`;
-  console.log("hello");
 })();
 
 const Form = (props) => {
   const [enteredCurrency, setEnteredCurrency] = useState("PLN");
+  
 
   const {
     value: enteredDate,
@@ -89,7 +89,6 @@ const Form = (props) => {
     props.onValid(formIsValid);
     props.onSendUserData(allData);
     props.onSave(true);
-
     resetDateInput();
     resetCiggaretsPerDayInput();
     resetCiggaretsInOnePacketInput();

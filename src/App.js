@@ -6,6 +6,7 @@ import Create from "./components/create/Create";
 import Modal from "./components/modal/Modal";
 import Control from "./components/control/Control";
 import DeleteModal from "./components/deleteModal/DeleteModal";
+
 function App() {
   const [userData, setUserData] = useState();
   const [userInfo, setUserInfo] = useState();
@@ -19,6 +20,7 @@ function App() {
   const [showAnswerForLoggedUser, setShowAnswerForLoggedUSer] = useState(false);
   const [saveYourChanges, setSaveYourChanges] = useState(false);
   const [closeForm, setCloseForm] = useState(true);
+
   useEffect(() => {
     const infoAboutUserLog = localStorage.getItem("isLoggedIn");
 
@@ -48,6 +50,7 @@ function App() {
   const signOutHandler = (login) => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("info");
+    localStorage.removeItem("update");
     setSignIn(login);
     setLoggedUserInfo({});
     setIsValid(false);
@@ -110,6 +113,7 @@ function App() {
   const openFormHandler = () => {
     setCloseForm(true);
   };
+ 
 
   return (
     <>
@@ -140,10 +144,12 @@ function App() {
           onSave={saveYourChangesHandler}
           update={showAnswerForLoggedUser}
           onFormOpen={openFormHandler}
+          closeAnswer={validHandler}
+          onLoggedUserInfo={loggedUserInfoHanlder}
         />
       )}
 
-      {showAnswerForLoggedUser && <Answer/>}
+      {showAnswerForLoggedUser && <Answer data={userData} />}
       {isValid && signIn && <Answer data={userData} />}
       {signIn && !showAnswerForLoggedUser && closeForm && (
         <Form
@@ -153,6 +159,7 @@ function App() {
           loggedUserInfo={loggedUserInfo}
           onSave={saveYourChangesHandler}
           onCloseForm={closeFormHandler}
+          
         />
       )}
 
